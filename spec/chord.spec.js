@@ -59,6 +59,13 @@ describe('chord finder', () => {
 				done()
 			})
 		})
+		it('should reject array that contains integers above 11', (done) => {
+			const arrayWithTooLargeInteger = [1, 2, 420]
+			chord.checkInputs(arrayWithTooLargeInteger).then(done.fail).catch((err) => {
+				expect(err).toEqual('array contains intger above 11')
+				done()
+			})
+		})
 	})
 	// Add value of N to each number. First time add 0. Runs 12 times, each time adding one more.
 	// Numbers should only be between 0-11.

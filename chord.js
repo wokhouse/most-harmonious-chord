@@ -32,11 +32,22 @@ function checkForUniqueNumbers(inputNotesArray) {
 	})
 }
 
+function checkForTooBigInts(inputNotesArray) {
+	return new Promise((resolve, reject) => {
+		inputNotesArray.map((inputNote) => {
+			if (inputNote > 11) return reject('array contains intger above 11')
+			return {}
+		})
+		return resolve(inputNotesArray)
+	})
+}
+
 // Input up to 11 unique digits between 0 and 11 in the format of a numerically sorted list
 function checkInputs(inputNotesArray) {
 	return new Promise((resolve, reject) => checkForNonIntegerTypes(inputNotesArray)
 		.then(checkLength)
 		.then(checkForUniqueNumbers)
+		.then(checkForTooBigInts)
 		.then(resolve)
 		.catch(reject)
 	)
