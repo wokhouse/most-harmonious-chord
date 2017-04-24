@@ -19,6 +19,7 @@
     "lint": "eslint -c .eslintrc.js ./"
   },
   "dependencies": {
-    "bluebird": "^3.5.0"
+    "bluebird": "^3.5.0",
+    "mathjs": "^3.12.0"
   }
 }

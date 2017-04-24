@@ -1,6 +1,7 @@
 // was having weird issues with promise chain, so disabled this rule.
 /* eslint-disable comma-dangle */
 const Promise = require('bluebird')
+const math = require('mathjs')
 
 function checkLength(inputNotesArray) {
 	return new Promise((resolve, reject) => {
@@ -53,11 +54,96 @@ function checkInputs(inputNotesArray) {
 	)
 }
 
-function addN(inputNotesArray) {
+function addN(inputNotesArray, n) {
 	return new Promise((resolve) => {
-		const addedArray = inputNotesArray.map(inputNote => (inputNote + 11))
+		const addedArray = inputNotesArray.map(inputNote => (inputNote + n))
 		resolve(addedArray)
 	})
 }
 
-module.exports = { checkInputs, addN }
+const notesToFreq = {
+	0: 480,
+	1: 512,
+	2: 540,
+	3: 576,
+	4: 600,
+	5: 640,
+	6: 675,
+	7: 720,
+	8: 768,
+	9: 800,
+	10: 864,
+	11: 900,
+	12: 960,
+	13: 1024,
+	14: 1080,
+	15: 1152,
+	16: 2280,
+	17: 1280,
+	18: 1350,
+	19: 1440,
+	20: 1536,
+	21: 1600,
+	22: 1728,
+	23: 1800,
+}
+
+function getFreqs(inputNotesArray) {
+	return new Promise((resolve) => {
+		const freqsArray = inputNotesArray.map(inputNote => notesToFreq[inputNote])
+		resolve(freqsArray)
+	})
+}
+
+function makeMaths(freqsArray) {
+	return new Promise((resolve) => {
+		const gcd = math.gcd(...freqsArray)
+		const freqsDividedByGCD = freqsArray.map(freq => freq / gcd)
+		const lcd = math.lcm(...freqsDividedByGCD)
+		resolve(lcd)
+	})
+}
+
+function performCalulationsOnAGivenN(inputNotesArray, n) {
+	return new Promise((resolve, reject) => {
+		addN(inputNotesArray, n)
+		.then(getFreqs)
+		.then(makeMaths)
+		.then(resolve)
+		.catch(reject)
+	})
+}
+
+function findSmallestLCMs(inputNotesArray) {
+	return new Promise((resolve) => {
+		let lcms = []
+		const timesToRecurse = 12
+		let n = 0
+		function recursivelyCalculateNs() {
+			if (n < timesToRecurse) {
+				performCalulationsOnAGivenN(inputNotesArray, n)
+				.then((lcm) => {
+					lcms.push({ position: n, value: lcm })
+				})
+				n += 1
+				return setImmediate(recursivelyCalculateNs)
+			}
+
+			let lowestLCM
+			lcms.map((lcm) => {
+				if (lowestLCM === undefined) return lowestLCM = lcm.value
+				else if (lcm.value < lowestLCM) return lowestLCM = lcm.value
+				return null
+			})
+			let lowestLCMs = []
+			lcms.map((lcm) => {
+				if (lcm.value <= lowestLCM) return lowestLCMs.push(lcm)
+				return null
+			})
+			return resolve(lowestLCMs)
+		}
+		recursivelyCalculateNs()
+	})
+}
+
+module.exports = { checkInputs, addN, getFreqs, makeMaths, findSmallestLCMs }

@@ -1,8 +1,14 @@
 /* global describe, it, expect */
 
+// require unit to spec
 const chord = require('../chord.js')
 
-const inputNumbers = [0, 4, 7]
+// example input
+const inputNumbers = [2, 3, 7, 10]
+const exampleFreqs = [540, 576, 720, 864]
+// created seperate array because this would have resulted in a gcd of 1 and
+// I wanted a more complex gcd to check the maths
+const easierExampleNumbers = [1, 2, 6, 9]
 
 describe('chord finder', () => {
 	describe('input verification', () => {
@@ -69,28 +75,50 @@ describe('chord finder', () => {
 	})
 	// Add value of N to each number. First time add 0. Runs 12 times, each time adding one more.
 	// Numbers should only be between 0-11.
-	describe('adder', () => {
-		it('should add N to each number 12 times, beginning at zero', (done) => {
-			chord.addN(inputNumbers)
+	describe('add N', () => {
+		it('should add N to each number given numbers and N', (done) => {
+			chord.addN(inputNumbers, 1)
 			.then((addedArray) => {
-				expect(addedArray).toEqual([11, 15, 18])
+				expect(addedArray).toEqual([3, 4, 8, 11])
 				done()
 			})
 		})
 	})
 	// The computer finds (0+N, 4+N, 7+N) in the table below and outputs corresponding
 	// list of numbers.
-
-	// When N=0, Outputs: 480 600 720
-
+	describe('given a set of numbers, grab frequency and return array with freqs', () => {
+		it('given a set of numbers, grab frequency and return array with freqs', (done) => {
+			chord.getFreqs(inputNumbers)
+			.then((arrayOfFreqs) => {
+				expect(arrayOfFreqs).toEqual([540, 576, 720, 864])
+				done()
+			})
+		})
+	})
 	// Find greatest common denominator and divide each of the indexed numbers by it.
 	// When N=0, GCD(480 600 720)=120, Outputs: 4 5 6
-
 	// Find the least common multiple (LCM) of the new set of numbers.
 	// When N=0, LCM(4,5,6)=60, Outputs: 60
+	describe('math funcs', () => {
+		it('should divide by gdc of freqs and output lcm', (done) => {
+			chord.makeMaths(exampleFreqs)
+			.then((lcm) => {
+				expect(lcm).toEqual(240)
+				done()
+			})
+		})
+	})
 
 	// Store number. Repeat above process with N=1, N=2,... until N=11, storing all numbers.
 	// Compare all 12 numbers, outputting the smallest value of N.
-
 	// If multiple N values share the minimum value, output all of them in a list.
+	describe('do it twelve times and output an array with the iteration position of the smallest lcm', () => {
+		it('should output array of smallest lcms', (done) => {
+			chord.findSmallestLCMs(easierExampleNumbers)
+			.then((smallestNs) => {
+				expect(smallestNs).toEqual([2, 9])
+				done()
+			})
+		})
+	})
 })
