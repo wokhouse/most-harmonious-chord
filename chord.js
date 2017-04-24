@@ -89,9 +89,12 @@ const notesToFreq = {
 }
 
 function getFreqs(inputNotesArray) {
-	return new Promise((resolve) => {
-		const freqsArray = inputNotesArray.map(inputNote => notesToFreq[inputNote])
-		resolve(freqsArray)
+	return new Promise((resolve, reject) => {
+		const freqsArray = inputNotesArray.map((inputNote) => {
+			if (isNaN(notesToFreq[inputNote]) === true) return reject('input contains notes that cannot be mapped to a frequency. limited to 0 - 23.')
+			return notesToFreq[inputNote]
+		})
+		return resolve(freqsArray)
 	})
 }
 
@@ -115,16 +118,18 @@ function performCalulationsOnAGivenN(inputNotesArray, n) {
 }
 
 function findSmallestLCMs(inputNotesArray) {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		const lcms = []
 		const timesToRecurse = 12
 		let n = 0
+
 		function recursivelyCalculateNs() {
 			if (n < timesToRecurse) {
 				performCalulationsOnAGivenN(inputNotesArray, n)
 				.then((lcm) => {
 					lcms.push({ position: n, value: lcm })
 				})
+				.catch(reject)
 				n += 1
 				return setImmediate(recursivelyCalculateNs)
 			}
