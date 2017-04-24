@@ -62,7 +62,15 @@ describe('chord finder', () => {
 	})
 	// Add value of N to each number. First time add 0. Runs 12 times, each time adding one more.
 	// Numbers should only be between 0-11.
-
+	describe('adder', () => {
+		it('should add N to each number 12 times, beginning at zero', (done) => {
+			chord.addN(inputNumbers)
+			.then((addedArray) => {
+				expect(addedArray).toEqual([11, 15, 18])
+				done()
+			})
+		})
+	})
 	// The computer finds (0+N, 4+N, 7+N) in the table below and outputs corresponding
 	// list of numbers.
 

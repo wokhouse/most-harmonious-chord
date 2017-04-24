@@ -42,4 +42,11 @@ function checkInputs(inputNotesArray) {
 	)
 }
 
-module.exports = { checkInputs }
+function addN(inputNotesArray) {
+	return new Promise((resolve) => {
+		const addedArray = inputNotesArray.map(inputNote => (inputNote + 11))
+		resolve(addedArray)
+	})
+}
+
+module.exports = { checkInputs, addN }
