@@ -4,6 +4,8 @@ module.exports = {
         "import"
     ],
     "rules": {
-    	"semi": ["error", "never"]
+    	"semi": ["error", "never"],
+    	"no-tabs": 0,
+    	"indent": 0
     }
 }
