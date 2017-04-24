@@ -15,7 +15,8 @@
   },
   "scripts": {
     "test": "jasmine",
-    "dev": "nodemon --exec jasmine"
+    "dev": "nodemon --exec 'jasmine && yarn lint'",
+    "lint": "eslint -c .eslintrc.js ./"
   },
   "dependencies": {
     "bluebird": "^3.5.0"
