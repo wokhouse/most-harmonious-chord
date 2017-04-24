@@ -1,7 +1,10 @@
 {
   "name": "most-harmonious-chord",
   "version": "1.0.0",
-  "description": "automatically find the key that produces the most harmonious chord with Euler Sweetness Function",
+  "engines": {
+    "node": "6.9.4"
+  },
+  "description": "Max/MSP module that automatically find the key that produces the most harmonious chord with Euler Sweetness Function.",
   "main": "chord.js",
   "repository": "https://overwatchcorp@github.com/overwatchcorp/most-harmonious-chord.git",
   "author": "Jasper Fung <jsprfng@gmail.com>",
