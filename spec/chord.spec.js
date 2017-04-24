@@ -1,7 +1,7 @@
 /* global describe, it, expect */
 
 // require unit to spec
-const chord = require('../chord.js')
+const chord = require('../src/chord.js')
 
 // example input
 const inputNumbers = [2, 3, 7, 10]
