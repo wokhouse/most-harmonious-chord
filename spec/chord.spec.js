@@ -116,7 +116,7 @@ describe('chord finder', () => {
 		it('should output array of smallest lcms', (done) => {
 			chord.findSmallestLCMs(easierExampleNumbers)
 			.then((smallestNs) => {
-				expect(smallestNs).toEqual([2, 9])
+				expect(smallestNs).toEqual([2, 4, 6, 7, 12])
 				done()
 			})
 		})

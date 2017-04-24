@@ -116,7 +116,7 @@ function performCalulationsOnAGivenN(inputNotesArray, n) {
 
 function findSmallestLCMs(inputNotesArray) {
 	return new Promise((resolve) => {
-		let lcms = []
+		const lcms = []
 		const timesToRecurse = 12
 		let n = 0
 		function recursivelyCalculateNs() {
@@ -131,13 +131,13 @@ function findSmallestLCMs(inputNotesArray) {
 
 			let lowestLCM
 			lcms.map((lcm) => {
-				if (lowestLCM === undefined) return lowestLCM = lcm.value
-				else if (lcm.value < lowestLCM) return lowestLCM = lcm.value
+				if (lowestLCM === undefined) return (lowestLCM = lcm.value)
+				else if (lcm.value < lowestLCM) return (lowestLCM = lcm.value)
 				return null
 			})
-			let lowestLCMs = []
+			const lowestLCMs = []
 			lcms.map((lcm) => {
-				if (lcm.value <= lowestLCM) return lowestLCMs.push(lcm)
+				if (lcm.value <= lowestLCM) return lowestLCMs.push(lcm.position)
 				return null
 			})
 			return resolve(lowestLCMs)
