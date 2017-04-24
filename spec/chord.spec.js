@@ -6,35 +6,56 @@ const inputNumbers = [0, 4, 7]
 
 describe('chord finder', () => {
 	describe('input verification', () => {
-		// Input up to 11 unique digits between 0 and 11 in the format of a numerically sorted list:
+		// Input up to 11 unique digits between 0 and 11 in the format of a numerically sorted list
 		it('should take up to 11 digits, all unique, each between 0 and 11 as an array', (done) => {
-			chord.findChord(inputNumbers).then(done).catch(done.fail)
+			chord.checkInputs(inputNumbers).then(done).catch(done.fail)
 		})
 		it('should not take more than 11 digits', (done) => {
 			const tooLongArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-			chord.findChord(tooLongArray).then(done.fail).catch((err) => {
+			chord.checkInputs(tooLongArray).then(done.fail).catch((err) => {
 				expect(err).toEqual('array too long, max length 11')
 				done()
 			})
 		})
 		it('should not take less than 1 digits', (done) => {
 			const tooShortArray = []
-			chord.findChord(tooShortArray).then(done.fail).catch((err) => {
+			chord.checkInputs(tooShortArray).then(done.fail).catch((err) => {
 				expect(err).toEqual('array does not contain anything')
 				done()
 			})
 		})
 		it('should reject lists with non-unique numbers', (done) => {
 			const arrayWithNonUniqueNumbers = [1, 2, 3, 4, 1]
-			chord.findChord(arrayWithNonUniqueNumbers).then(done.fail).catch((err) => {
+			chord.checkInputs(arrayWithNonUniqueNumbers).then(done.fail).catch((err) => {
 				expect(err).toEqual('array contains non-unique numbers')
 				done()
 			})
 		})
 		it('should reject arrays that do not contain numbers', (done) => {
 			const arrayWithNonUniqueNumbers = [1, 'a', 3, 4, 1]
-			chord.findChord(arrayWithNonUniqueNumbers).then(done.fail).catch((err) => {
+			chord.checkInputs(arrayWithNonUniqueNumbers).then(done.fail).catch((err) => {
 				expect(err).toEqual('array contains types other than integers')
+				done()
+			})
+		})
+		it('should reject objects', (done) => {
+			const objectType = { check: 'mate' }
+			chord.checkInputs(objectType).then(done.fail).catch((err) => {
+				expect(err).toEqual('input is not an array type. requires array of numbers.')
+				done()
+			})
+		})
+		it('should reject strings', (done) => {
+			const stringType = 'hey mate what\'s good'
+			chord.checkInputs(stringType).then(done.fail).catch((err) => {
+				expect(err).toEqual('input is not an array type. requires array of numbers.')
+				done()
+			})
+		})
+		it('should reject integers', (done) => {
+			const integerType = 56455678876
+			chord.checkInputs(integerType).then(done.fail).catch((err) => {
+				expect(err).toEqual('input is not an array type. requires array of numbers.')
 				done()
 			})
 		})

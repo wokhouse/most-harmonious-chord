@@ -13,6 +13,7 @@ function checkLength(inputNotesArray) {
 
 function checkForNonIntegerTypes(inputNotesArray) {
 	return new Promise((resolve, reject) => {
+		if (Array.isArray(inputNotesArray) === false) reject('input is not an array type. requires array of numbers.')
 		for (let i = inputNotesArray.length - 1; i >= 0; i -= 1) {
 			if (isNaN(inputNotesArray[i])) return reject('array contains types other than integers')
 		}
@@ -31,13 +32,14 @@ function checkForUniqueNumbers(inputNotesArray) {
 	})
 }
 
-function findChord(inputNotesArray) {
-	return new Promise((resolve, reject) => checkLength(inputNotesArray)
-		.then(checkForNonIntegerTypes)
+// Input up to 11 unique digits between 0 and 11 in the format of a numerically sorted list
+function checkInputs(inputNotesArray) {
+	return new Promise((resolve, reject) => checkForNonIntegerTypes(inputNotesArray)
+		.then(checkLength)
 		.then(checkForUniqueNumbers)
 		.then(resolve)
 		.catch(reject)
 	)
 }
 
-module.exports = { findChord }
+module.exports = { checkInputs }
